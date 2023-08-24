@@ -1,6 +1,28 @@
 <script>
-export default {
+import axios from 'axios';
 
+export default {
+    data() {
+        return {
+            cardsList: [],
+            totalCard: "",
+        }
+    },
+    methods: {
+        /**
+         * Ottiene una lista di carte dalla API e aggiorna la variabile 'cardsList'
+         */
+        findCard() {
+            const url = "https://db.ygoprodeck.com/api/v7/cardinfo.php?num=20&offset=0";
+
+            axios.get(url).then((response) => {
+                this.cardsList = response.data.data;
+            })
+        },
+    },
+    mounted() {
+        this.findCard();
+    }
 }
 </script>
 
@@ -8,15 +30,15 @@ export default {
     <div class="container card-container pt-5 ps-5 pe-5 pb-2">
         <!-- Sezione carte trovate -->
         <div class="found-card">
-            <p class="text-white m-0 p-0 fw-bold">Found 39 cards</p>
+            <p class="text-white m-0 p-0 fw-bold">Found {{ cardsList.length }} cards</p>
         </div>
         <div class="row row-cols-5 card-box gy-4">
-            <div class="col">
+            <div class="col" v-for="card in cardsList" :key="card.id">
                 <div class="card">
-                    <img src="/public/img/layout-da-riprodurre.png" alt="test">
+                    <img v-bind:src="card.card_images[0].image_url" v-bind:alt="card.name">
                     <div class="card-body">
-                        <h5 class="text-white text-uppercase fs-5 fw-bold">Card title</h5>
-                        <p class="card-text">tipo</p>
+                        <h5 class="text-white text-uppercase fs-5 fw-bold"> {{ card.name }} </h5>
+                        <p class="card-text"> {{ card.archetype }} </p>
                     </div>
                 </div>
             </div>
