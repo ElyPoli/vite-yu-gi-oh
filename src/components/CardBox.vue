@@ -1,7 +1,11 @@
 <script>
 import axios from 'axios';
+import SingleCardGame from "./SingleCardGame.vue";
 
 export default {
+    components: {
+        SingleCardGame,
+    },
     data() {
         return {
             cardsList: [],
@@ -34,13 +38,7 @@ export default {
         </div>
         <div class="row row-cols-5 card-box gy-4">
             <div class="col" v-for="card in cardsList" :key="card.id">
-                <div class="card">
-                    <img v-bind:src="card.card_images[0].image_url" v-bind:alt="card.name">
-                    <div class="card-body">
-                        <h5 class="text-white text-uppercase fs-5 fw-bold"> {{ card.name }} </h5>
-                        <p class="card-text"> {{ card.archetype }} </p>
-                    </div>
-                </div>
+                <SingleCardGame v-bind:singleCard="card"></SingleCardGame>
             </div>
         </div>
     </div>
@@ -52,25 +50,6 @@ export default {
 
 .card-container {
     background-color: #ffffff;
-}
-
-.card-box {
-    .card {
-        cursor: pointer;
-        height: 100%;
-        color: var(--bs-body-color);
-        background-color: $primary-color;
-        border: none;
-        border-radius: 0;
-
-        .card-body {
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            align-items: center;
-            text-align: center;
-        }
-    }
 }
 
 .found-card {
