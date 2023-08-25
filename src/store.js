@@ -5,30 +5,37 @@ export const store = reactive({
   type: "Select type",
   cardListSpecificType: [],
   listOptionSelect: [],
+  pageInfo: {
+    start: 0,
+    end: 50,
+  },
+  isLoadPage: false,
 });
 
 /**
- * Ottiene una lista di tutte le carte dalla API e aggiorna la variabile 'cardsList'
- */
-export function findAllCards() {
-  const url = "https://db.ygoprodeck.com/api/v7/cardinfo.php?num=50&offset=0";
-
-  axios.get(url).then((response) => {
-    store.cardsList = response.data.data;
-  });
-}
-
-/**
- * Ottiene una lista delle carte selezionate dalla API e aggiorna la variabile 'cardsList'
+ * Ottiene una lista delle carte selezionate dalla API e aggiorna la variabile 'cardListSpecificType'
  */
 export function findSelectedCards(newUrl) {
+  store.isLoadPage = true;
+
   if (store.type === "Select type") {
-    newUrl = "https://db.ygoprodeck.com/api/v7/cardinfo.php?num=50&offset=0";
+    newUrl = "https://db.ygoprodeck.com/api/v7/cardinfo.php";
+
+    axios.get(newUrl).then((response) => {
+      store.cardListSpecificType = response.data.data.splice(
+        store.pageInfo.start,
+        store.pageInfo.end
+      );
+    });
+  } else {
+    axios.get(newUrl).then((response) => {
+      store.cardListSpecificType = response.data.data;
+    });
   }
 
-  axios.get(newUrl).then((response) => {
-    store.cardListSpecificType = response.data.data;
-  });
+  setTimeout(() => {
+    store.isLoadPage = false;
+  }, 1000);
 }
 
 /**
@@ -46,9 +53,19 @@ export function selectOption() {
  * Filtra le carte in base all'archetipo selezionato.
  */
 export function typeSelected() {
-    store.cardListSpecificType = [];
+  store.cardListSpecificType = [];
 
-    findSelectedCards(`https://db.ygoprodeck.com/api/v7/cardinfo.php??&archetype=${store.type}`);
+  findSelectedCards(
+    `https://db.ygoprodeck.com/api/v7/cardinfo.php??&archetype=${store.type}`
+  );
+}
 
-    console.log(`https://db.ygoprodeck.com/api/v7/cardinfo.php??&archetype=${store.type}`);
+/**
+ * Aggiorna "pageInfo" e richiama la funzione "findSelectedCards" per caricare ulteriori carte
+ */
+export function updatePage() {
+  store.pageInfo.start = store.pageInfo.end;
+  store.pageInfo.end += 50;
+
+  findSelectedCards();
 }
