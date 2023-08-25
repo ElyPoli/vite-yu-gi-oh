@@ -1,11 +1,13 @@
 <script>
 import TheHeader from "./components/TheHeader.vue";
 import CardBox from "./components/CardBox.vue";
+import SelectType from "./components/SelectType.vue";
 
 export default {
     components: {
         TheHeader,
         CardBox,
+        SelectType,
     }
 }
 </script>
@@ -13,14 +15,7 @@ export default {
 <template>
     <TheHeader></TheHeader>
     <main>
-        <div class="container pt-4 pb-4">
-            <!-- Form seleziona opzioni -->
-            <select class="form-select">
-                <option value="1">Alien</option>
-                <option value="2">Two</option>
-                <option value="3">Three</option>
-            </select>
-        </div>
+        <SelectType></SelectType>
         <CardBox></CardBox>
     </main>
 </template>
