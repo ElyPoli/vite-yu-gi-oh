@@ -1,7 +1,7 @@
 import { reactive } from "vue";
 
 export const listOfCards = reactive({
-    type: "Alien",
+    type: "Select type",
     cardsList: [],
     cardListSpecificType: [],
 });
