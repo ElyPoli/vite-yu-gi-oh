@@ -3,7 +3,6 @@ export default {
     props: {
         singleCard: {
             type: Object,
-            default: null,
             required: true,
         }
     }
@@ -12,13 +11,10 @@ export default {
 
 <template>
     <div class="card">
-        <img v-bind:src="singleCard.card_images[0].image_url" v-bind:alt="singleCard.name" v-if="singleCard">
-        <img src="/public/img/logo-Yu-Gi-Oh.png" alt="image default" v-else>
+        <img v-bind:src="singleCard.card_images[0].image_url" v-bind:alt="singleCard.name">
         <div class="card-body">
-            <h5 class="text-white text-uppercase fs-5 fw-bold" v-if="singleCard"> {{ singleCard.name }} </h5>
-            <h5 class="text-white text-uppercase fs-5 fw-bold" v-else>Yu-Gi-Oh</h5>
-            <p class="card-text" v-if="singleCard"> {{ singleCard.archetype }} </p>
-            <p class="card-text"  v-else> Yu-Gi-Oh </p>
+            <h5 class="text-white text-uppercase fs-5 fw-bold"> {{ singleCard.name }} </h5>
+            <p class="card-text"> {{ singleCard.archetype }} </p>
         </div>
     </div>
 </template>

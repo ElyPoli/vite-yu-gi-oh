@@ -1,26 +1,17 @@
 <script>
-import { listOfCards } from "../card-list-create.js";
+import { store, selectOption, typeSelected } from "../store.js";
 
 export default {
     data() {
         return {
-            listOfCards,
+            store,
         }
     },
     methods: {
-        /**
-         * Filtra le carte in base all'archetipo selezionato.
-         */
-        typeSelected() {
-            listOfCards.cardListSpecificType = [];
-
-            listOfCards.cardsList.forEach((singleCard, i) => {
-                if (singleCard.archetype === listOfCards.type) {
-                    listOfCards.cardListSpecificType[i] = singleCard;
-                    console.log(listOfCards.cardListSpecificType[i]);
-                }
-            });
-        },
+        typeSelected,
+    },
+    mounted() {
+        selectOption();
     }
 }
 </script>
@@ -28,11 +19,10 @@ export default {
 <template>
     <div class="container pt-4 pb-4">
         <!-- Form seleziona tipi -->
-        <select class="form-select" v-model="listOfCards.type" @click="typeSelected()">
+        <select class="form-select" v-model="store.type" @change="typeSelected()">
             <option selected>Select type</option>
-            <option value="Alien">Alien</option>
-            <option value="Melodious">Melodious</option>
-            <option value="Archfiend">Archfiend</option>
+            <option v-bind:value="option.archetype_name" v-for="option in store.listOptionSelect"> {{
+                option.archetype_name }} </option>
         </select>
     </div>
 </template>
