@@ -2,7 +2,7 @@ import { reactive } from "vue";
 import axios from "axios";
 
 export const store = reactive({
-  type: "Select type",
+  type: "Select archetype",
   cardListSpecificType: [],
   listOptionSelect: [],
   pageInfo: {
@@ -18,7 +18,7 @@ export const store = reactive({
 export function findSelectedCards(newUrl) {
   store.isLoadPage = true;
 
-  if (store.type === "Select type") {
+  if (store.type === "Select archetype") {
     newUrl = "https://db.ygoprodeck.com/api/v7/cardinfo.php";
 
     axios.get(newUrl).then((response) => {

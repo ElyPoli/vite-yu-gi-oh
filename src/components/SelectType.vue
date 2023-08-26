@@ -1,5 +1,5 @@
 <script>
-import { store, selectOption, typeSelected } from "../store.js";
+import { store, selectOption, typeSelected } from "../store";
 
 export default {
     data() {
@@ -20,7 +20,7 @@ export default {
     <div class="container pt-4 pb-4">
         <!-- Form seleziona tipi -->
         <select class="form-select" v-model="store.type" @change="typeSelected()">
-            <option selected>Select type</option>
+            <option selected>Select archetype</option>
             <option v-bind:value="option.archetype_name" v-for="option in store.listOptionSelect"> {{
                 option.archetype_name }} </option>
         </select>
